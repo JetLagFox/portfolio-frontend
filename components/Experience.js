@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
-import { getExperiences } from '../api/experience';
 
 import ExperienceItem from './../atoms/ExperienceItem';
 import TagItem from '../atoms/TagItem';
+
+const checkFilter = (experience, filters) => {
+	let experienceFiltered = false;
+	filters.map(filter => {
+		if (experience.tags.indexOf(filter) > -1) {
+			experienceFiltered = true;
+		}
+	})
+	return experienceFiltered;
+}
 
 const Experience = ({data}) => {
 
@@ -24,10 +33,8 @@ const Experience = ({data}) => {
 	}, [data])
 
 	useEffect(() => {
-		const allExperiences = experiences;
-
 		if (filterBy?.length > 0) {
-			setExperiences(allExperiences.filter(experience => experience.tags.indexOf(filterBy[0]) > -1 ))
+			setExperiences(data.experiences.filter(experience => checkFilter(experience,filterBy))); 
 		} else {
 			setExperiences(data.experiences);
 		}
