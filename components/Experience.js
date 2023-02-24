@@ -24,33 +24,13 @@ const Experience = ({data}) => {
 	}, [data])
 
 	useEffect(() => {
-
-
-		console.log("ESTO ES FILTER BY:" ,filterBy)
-		function tagIsFiltered() {
-				filterBy.map(tag => {
-
-				})
-			return num >= 100;
-		  }
+		const allExperiences = experiences;
 
 		if (filterBy?.length > 0) {
-			console.log("he entrado");
-			/*
-			const newData = data.filter(function (item) {
-				filterBy.map(tag => {
-					return item.tags.indexOf("Stripo") > -1
-				})			
-			  }); */
-			//console.log(data?.experiences?.filter(experience =>  {console.log("epaaaaaa", experience.tags);experience.tags}).map(experience => experience))
-			console.log(experiences.filter(experience => experience.tags.indexOf("Stripo") > 0))
-			setExperiences(experiences.filter(experience => {
-				console.log("experience;", experience);
-				filterBy.forEach(item => {
-					experience.tags.indexOf(item) > 0
-				})
-			}))
-		} 
+			setExperiences(allExperiences.filter(experience => experience.tags.indexOf(filterBy[0]) > -1 ))
+		} else {
+			setExperiences(data.experiences);
+		}
 	}, [filterBy])
 
 	const handleSelection = (item) => {
