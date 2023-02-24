@@ -1,8 +1,17 @@
 import { useEffect, useState } from 'react';
-import { getExperiences } from '../api/experience';
 
 import ExperienceItem from './../atoms/ExperienceItem';
 import TagItem from '../atoms/TagItem';
+
+const checkFilter = (experience, filters) => {
+	let experienceFiltered = false;
+	filters.map(filter => {
+		if (experience.tags.indexOf(filter) > -1) {
+			experienceFiltered = true;
+		}
+	})
+	return experienceFiltered;
+}
 
 const Experience = ({data}) => {
 
@@ -24,33 +33,11 @@ const Experience = ({data}) => {
 	}, [data])
 
 	useEffect(() => {
-
-
-		console.log("ESTO ES FILTER BY:" ,filterBy)
-		function tagIsFiltered() {
-				filterBy.map(tag => {
-
-				})
-			return num >= 100;
-		  }
-
 		if (filterBy?.length > 0) {
-			console.log("he entrado");
-			/*
-			const newData = data.filter(function (item) {
-				filterBy.map(tag => {
-					return item.tags.indexOf("Stripo") > -1
-				})			
-			  }); */
-			//console.log(data?.experiences?.filter(experience =>  {console.log("epaaaaaa", experience.tags);experience.tags}).map(experience => experience))
-			console.log(experiences.filter(experience => experience.tags.indexOf("Stripo") > 0))
-			setExperiences(experiences.filter(experience => {
-				console.log("experience;", experience);
-				filterBy.forEach(item => {
-					experience.tags.indexOf(item) > 0
-				})
-			}))
-		} 
+			setExperiences(data.experiences.filter(experience => checkFilter(experience,filterBy))); 
+		} else {
+			setExperiences(data.experiences);
+		}
 	}, [filterBy])
 
 	const handleSelection = (item) => {
