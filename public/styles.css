@@ -177,3 +177,46 @@ section h2 {
 .tag--selected {
     color: var(--color-mandy);
 }
+
+.contact-form form {
+    flex-direction: column;
+    display: flex;
+}
+
+.contact-form textarea {
+    max-width: 100%;
+    min-width: 100%;
+    min-height: 200px;
+    max-height: 600px;
+    font-family: 'Archivo', sans-serif;
+}
+
+.contact-form input,
+.contact-form textarea {
+    border: 2px solid #f2f2f2;
+    margin-top: 10px;
+    padding: 15px;
+    background: #f2f2f2;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    background: var(--color-white);
+    border: 2px solid #f2f2f2;
+    outline: none;
+}
+
+.contact-form input[type="submit"] {
+    border: 2px solid var(--color-mandy);
+    background: var(--color-mandy);
+    color: var(--color-white);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.contact-form input[type="submit"]:hover {
+    background: var(--color-white);
+    color: var(--color-mandy);
+}
