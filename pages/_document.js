@@ -25,7 +25,7 @@ class MyDocument extends Document {
             rel="stylesheet"
           />
           <link
-            href="https://fonts.googleapis.com/css2?family=Secular+One&display=swap"
+            href="https://fonts.googleapis.com/css2?family=Secular+One&family=La+Belle+Aurore&family=Open+Sans:wght@300&display=swap"
             rel="stylesheet"
           />
           <link href="/styles.css" rel="stylesheet" />

@@ -1,10 +1,13 @@
 :root {
+  --color-abbey: #515152;
   --color-big-stone: #16213e;
+  --color-cod-gray: #1d1d1d;
   --color-downriver: #0f3460;
   --color-minsk: #533483;
   --color-mandy: #e94560;
   --color-white: #ffffff;
   --color-mercury: #e3e3e3;
+  --color-mine-shaft: #2b2b2b;
   --color-las-palmas: #d6f31f;
 
   --wrapper-width: 1200px;
@@ -22,7 +25,7 @@
 
 body {
   font-family: "Archivo", sans-serif;
-  background-color: var(--color-las-palmas);
+  background-color: var(--color-cod-gray);
 }
 
 h1 {
@@ -35,7 +38,7 @@ h1 {
   height: 100%;
   max-width: var(--wrapper-width);
   margin: auto;
-  padding: 80px 5px;
+  padding: 80px 40px;
 }
 
 .button {
@@ -128,7 +131,59 @@ h1 {
 
 section h2 {
   font-size: 34px;
-  padding-bottom: 40px;
+  padding: 20px 0;
+  position: relative;
+  color: var(--color-las-palmas);
+}
+
+section h2:before {
+  content: "<h2>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  top: -6px;
+  font-size: 18px;
+  color: var(--color-abbey);
+  left: -10px;
+}
+
+section h2:after {
+  content: "</h2>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  font-size: 18px;
+  color: var(--color-abbey);
+}
+
+p {
+  color: var(--color-white);
+  font-family: "Open Sans", sans-serif;
+}
+
+p[class="show-custom-tag"] {
+  padding: 20px 0;
+  position: relative;
+}
+
+p[class="show-custom-tag"]:before {
+  content: "<p>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  top: -6px;
+  font-size: 18px;
+  color: var(--color-abbey);
+  left: -10px;
+}
+
+p[class="show-custom-tag"]:after {
+  content: "</p>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  font-size: 18px;
+  color: var(--color-abbey);
 }
 
 .header {
@@ -180,9 +235,40 @@ section h2 {
   color: var(--color-mandy);
 }
 
+.contact-form .wrapper {
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
 .contact-form form {
   flex-direction: column;
   display: flex;
+  padding: 32px 0;
+  position: relative;
+}
+
+.contact-form form:before {
+  content: "<form>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  top: -6px;
+  font-size: 18px;
+  color: var(--color-abbey);
+  left: -10px;
+}
+
+.contact-form form:after {
+  content: "</form>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  font-size: 18px;
+  color: var(--color-abbey);
+}
+
+.contact-form__wrap {
+  width: 50%;
 }
 
 .contact-form textarea {
@@ -195,64 +281,58 @@ section h2 {
 
 .contact-form input,
 .contact-form textarea {
-  border: 1px solid var(--color-big-stone);
+  color: var(--color-white);
   padding: 14px;
-  background: var(--color-las-palmas);
-  border-radius: 5px;
+  background: var(--color-mine-shaft);
   font-size: 14px;
+  font-family: "Open Sans", sans-serif;
   width: 100%;
+  border: none;
+  border-bottom: 1px solid var(--color-mine-shaft);
+  margin-top: 16px;
+  transition: all 0.3s ease;
+}
+
+.contact-form .contact-form--2-column:not(:first-child) {
+  margin-top: 16px;
+}
+
+.contact-form .contact-form--2-column input {
+  margin-top: 0;
+}
+
+.contact-form--2-column {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.contact-form--2-column input {
+  width: 48%;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
+  border-bottom: 1px solid var(--color-las-palmas);
 }
 
 .contact-form input[type="submit"] {
-  border: 2px solid var(--color-mandy);
-  background: var(--color-las-palmas);
-  color: var(--color-white);
+  border: 1px solid var(--color-las-palmas);
+  background: transparent;
+  color: var(--color-las-palmas);
   font-weight: bold;
+  font-family: "Open Sans", sans-serif;
   cursor: pointer;
+  width: fit-content;
+  min-width: 200px;
+  align-self: flex-end;
+  transition: all 0.3s ease;
+  letter-spacing: 2px;
+  margin-top: 32px;
 }
 
 .contact-form input[type="submit"]:hover {
-  background: var(--color-white);
-  color: var(--color-mandy);
-}
-
-.contact-form input::placeholder,
-.contact-form textarea::placeholder {
-  color: var(--color-big-stone);
-}
-
-.contact-form__input-wrapper {
-  position: relative;
-  margin-top: 20px;
-}
-
-.contact-form__input-wrapper span {
-  position: absolute;
   background: var(--color-las-palmas);
-  padding: 0 8px;
-  top: 16px;
-  left: 10px;
-  font-size: 16px;
-  transition: all 0.1s ease-out;
-  -webkit-transition: all 0.1s ease-out;
-  -moz-transition: all 0.1s ease-out;
-  -o-transition: all 0.1s ease-out;
-  -ms-transition: all 0.1s ease-out;
-}
-
-.contact-form__input-wrapper input:focus ~ span,
-.contact-form__input-wrapper textarea:focus ~ span,
-.contact-form__input-wrapper .input--value {
-  top: -7px;
-  font-size: 12px;
-  transition: all 0.1s ease-in;
-  -webkit-transition: all 0.1s ease-in;
-  -moz-transition: all 0.1s ease-in;
-  -o-transition: all 0.1s ease-in;
-  -ms-transition: all 0.1s ease-in;
+  color: var(--color-cod-gray);
 }

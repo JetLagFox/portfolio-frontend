@@ -1,23 +1,23 @@
 const FormItem = ({ handlChange, formInputs, name, type, label }) => {
   return (
-    <div className="contact-form__input-wrapper">
+    <>
       {type === "textarea" ? (
-        <textarea onChange={handlChange} name={name} value={formInputs[name]} />
+        <textarea
+          onChange={handlChange}
+          name={name}
+          value={formInputs[name]}
+          placeholder={label}
+        />
       ) : (
         <input
           onChange={handlChange}
           name={name}
           type={type}
           value={formInputs[name]}
+          placeholder={label}
         />
       )}
-      <span
-        onClick={() => setClickedLabel(true)}
-        className={formInputs[name]?.length > 0 ? "input--value" : undefined}
-      >
-        {label}
-      </span>
-    </div>
+    </>
   );
 };
 
