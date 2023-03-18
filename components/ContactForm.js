@@ -29,7 +29,7 @@ const ContactForm = () => {
   };
 
   return (
-    <section className="contact-form">
+    <section className="contact-form" id="contacto">
       <div className="wrapper">
         <div className="contact-form__wrap contact-form__left-column">
           <h2>Contact form</h2>

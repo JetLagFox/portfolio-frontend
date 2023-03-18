@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { useInViewport } from "react-in-viewport";
 
 import ExperienceItem from "./../atoms/ExperienceItem";
 import TagItem from "../atoms/TagItem";
@@ -14,9 +15,15 @@ const checkFilter = (experience, filters) => {
 };
 
 const Experience = ({ data }) => {
+  const myRef = useRef();
   const [filterBy, setFilterBy] = useState([]);
   const [tagsArray, setTagsArray] = useState([]);
   const [experiences, setExperiences] = useState();
+  const { inViewport, enterCount, leaveCount } = useInViewport(
+    myRef,
+    {},
+    { disconnectOnLeave: false }
+  );
 
   useEffect(() => {
     const customArray = [];
@@ -64,8 +71,14 @@ const Experience = ({ data }) => {
             );
           })}
         </p>
-        <ul className="experience__wrap">
+        <ul
+          className={`experience__wrap ${
+            enterCount >= 1 && "experience__wrap--fade-in"
+          }`}
+          ref={myRef}
+        >
           {experiences?.map((item, index) => {
+            console.log(index);
             return (
               <ExperienceItem
                 job={item.job}
@@ -75,7 +88,7 @@ const Experience = ({ data }) => {
                 finishDate={item.finishDate}
                 description={item.description}
                 company={item.company}
-                key={index}
+                keyIndex={index}
                 tags={item.tags}
               />
             );

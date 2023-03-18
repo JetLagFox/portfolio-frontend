@@ -10,6 +10,8 @@
   --color-mine-shaft: #2b2b2b;
   --color-las-palmas: #d6f31f;
 
+  --header-height: 60px;
+
   --wrapper-width: 1200px;
 
   --main-color: var(--color-big-stone);
@@ -21,6 +23,10 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+}
+
+*::selection {
+  background: var(--color-mandy);
 }
 
 body {
@@ -62,9 +68,8 @@ h1 {
 }
 
 .hero {
-  height: 600px;
+  height: calc(100vh - var(--header-height));
   width: 100%;
-  background: var(--main-color);
   position: relative;
 }
 
@@ -76,57 +81,121 @@ h1 {
   height: 100%;
 }
 
-.hero__content-descripcion {
-  font-size: 24px;
-  line-height: 30px;
-  margin-top: 20px;
-  margin-bottom: 40px;
+.hero__content-special {
+  color: var(--color-las-palmas);
+  text-shadow: -4px 3px var(--color-mandy);
 }
 
-.hero .rectangle {
-  content: "";
-  position: absolute;
-  animation-name: rectangle-rotation;
-  animation-duration: 5s;
-  transform: rotate(0);
-  animation-iteration-count: infinite;
+/* prettier-ignore */
+@keyframes typing {
+	0.0000%, 26.6146% { content: ""; }
+	0.5769%, 26.0377% { content: "I"; }
+	1.1538%, 25.4608% { content: "In"; }
+	1.7307%, 24.8839% { content: "Ing"; }
+	2.3076%, 24.307% { content: "Inge"; }
+	2.8845%, 23.7301% { content: "Ingen"; }
+	3.4614%, 23.1532% { content: "Ingeni"; }
+	4.0383%, 22.5763% { content: "Ingenie"; }
+	4.6152%, 21.9994% { content: "Ingenier"; }
+	5.1921%, 21.4225% { content: "Ingeniero"; }
+	5.769%, 20.8456% { content: "Ingeniero "; }
+	6.3459%, 20.2678% { content: "Ingeniero T"; }
+	6.9228%, 19.6918% { content: "Ingeniero Té"; }
+	7.4997%, 19.1149% { content: "Ingeniero Téc"; }
+	8.0766%, 18.538% { content: "Ingeniero Técn"; }
+	8.6535%, 17.9611% { content: "Ingeniero Técni"; }
+	9.2304%, 17.3842% { content: "Ingeniero Técnic"; }
+	9.8073%, 16.8073% { content: "Ingeniero Técnico"; }
+
+	29.6146%, 60.8444% { content: ""; }
+	30.1915%, 60.2675% { content: "D"; }
+	30.7684%, 59.6903% { content: "De"; }
+	31.3453%, 59.1137% { content: "Des"; }
+	31.9222%, 58.5368% { content: "Desa"; }
+	32.4991%, 57.9599% { content: "Desar"; }
+	33.076%, 57.9599% { content: "Desarr"; }
+	33.6529%, 57.383% { content: "Desarro"; }
+	34.2298%, 56.8061% { content: "Desarrol"; }
+	34.8067%, 56.2292% { content: "Desarroll"; }
+	35.3836%, 55.6523% { content: "Desarrolla"; }
+	35.9605%, 55.0754% { content: "Desarrollad"; }
+	36.5374%, 54.4985% { content: "Desarrollado"; }
+	37.1143%, 53.9216% { content: "Desarrollador"; }
+	37.6912%, 53.3447% { content: "Desarrollador "; }
+	38.2681%, 52.7678% { content: "Desarrollador F"; }
+	38.845%, 52.1909% { content: "Desarrollador Fro"; }
+	39.4219%, 51.614% { content: "Desarrollador Fron"; }
+	39.9988%, 51.0371% { content: "Desarrollador Front"; }
+	40.5757%, 50.4602% { content: "Desarrollador Front-"; }
+	41.1526%, 49.8833% { content: "Desarrollador Front-e"; }
+	41.7295%, 49.3064% { content: "Desarrollador Front-en"; }
+	42.3064%, 48.7295% { content: "Desarrollador Front-end"; }
+
+	63.8444%, 76.6134% { content: ""; }
+	64.4213%, 76.0365% { content: "G"; }
+	64.9982%, 75.4596% { content: "Ga"; }
+	65.5751%, 74.8827% { content: "Gam"; }
+	66.152%, 74.3058% { content: "Game"; }
+	66.7289%, 73.7289% { content: "Gamer"; }
+
+	79.6134%, 94.69% { content: ""; }
+	80.1903%, 94.1131% { content: "C"; }
+	80.7672%, 93.5362% { content: "Cu"; }
+	81.3441%, 92.9593% { content: "Cur"; }
+	81.921%, 92.3824% { content: "Curi"; }
+	82.4979%, 91.8055% { content: "Curio"; }
+	83.0748%, 91.2286% { content: "Curios"; }
+	83.6517%, 90.6517% { content: "Curioso"; }
 }
 
-.rectangle-1 {
-  top: 20%;
-  left: 30%;
-  width: 20px;
-  height: 20px;
-  border: 3px solid var(--secondary-color);
-  animation-delay: 2s;
-}
-
-.rectangle-2 {
-  top: 70%;
-  left: 50%;
-  width: 50px;
-  height: 50px;
-  border: 3px solid var(--secondary-color);
-}
-
-.rectangle-3 {
-  top: 30%;
-  left: 80%;
-  width: 30px;
-  height: 30px;
-  border: 3px solid var(--secondary-color);
-  animation-delay: 1s;
-}
-
-@keyframes rectangle-rotation {
-  from {
-    transform: rotate(0deg) scale(1);
+@keyframes blink {
+  0%,
+  100% {
     opacity: 1;
   }
-  to {
-    transform: rotate(360deg) scale(2.5);
+  50% {
     opacity: 0;
   }
+}
+
+.typewriter {
+  color: var(--color-las-palmas);
+}
+
+.typewriter::before {
+  content: "";
+  animation: typing 13.5s infinite;
+}
+
+.typewriter::after {
+  content: "";
+  border-right: 5px solid var(--color-mandy);
+  animation: blink 0.5s linear infinite;
+}
+
+h1 {
+  padding: 20px 0;
+  position: relative;
+}
+
+section h1:before {
+  content: "<h1>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  top: -6px;
+  font-size: 18px;
+  color: var(--color-abbey);
+  left: -10px;
+}
+
+section h1:after {
+  content: "</h1>";
+  font-family: "La Belle Aurore", cursive;
+  position: absolute;
+  bottom: -10px;
+  left: -10px;
+  font-size: 18px;
+  color: var(--color-abbey);
 }
 
 section h2 {
@@ -188,26 +257,53 @@ p[class="show-custom-tag"]:after {
 
 .header {
   width: 100%;
-  background: var(--main-color);
-  height: 60px;
+  height: var(--header-height);
 }
 
 .header .wrapper {
+  align-items: center;
   display: flex;
   justify-content: space-between;
+  padding: 0 20px;
+}
+
+.header a {
+  color: var(--color-white);
+  font-family: "Open Sans", sans-serif;
+  font-weight: normal;
+  text-decoration: none;
+}
+
+.header a:not(:last-child) {
+  margin-right: 20px;
 }
 
 .experience__wrap {
-  margin-top: 40px;
+  margin-top: 120px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
 }
+/*
+.experience__wrap::after {
+  content: "";
+  height: 0;
+  width: 3px;
+  background: var(--color-las-palmas);
+  left: 50%;
+  position: absolute;
+  top: 0;
+}
+
+.experience__wrap--fade-in::after {
+  top: 20px;
+  height: 95%;
+  transition: all 2s ease-in;
+} */
 
 .experience__wrap li {
   list-style: none;
   cursor: pointer;
-}
-
-.experience__wrap li:not(:last-child) {
-  margin-bottom: 20px;
 }
 
 .experience-tag {
@@ -223,16 +319,185 @@ p[class="show-custom-tag"]:after {
   margin-right: 10px;
 }
 
-.experience-item__tags span {
-  background: var(--color-mandy) + "99";
-  border: 1px solid var(--color-mandy);
+.experience-item {
+  background: var(--color-mine-shaft);
+  padding: 20px;
+  font-family: "Open Sans", sans-serif;
+  position: relative;
+  opacity: 0;
+  width: 48%;
+}
+
+.experience-item:nth-child(2n + 2) {
+  align-self: flex-start;
+  margin-top: 60px;
+}
+
+.experience-item:nth-child(2n + 1) {
+  align-self: flex-end;
+  margin-top: 60px;
+}
+
+.experience-item--inviewport:nth-child(2n + 1),
+.experience-item--inviewport:nth-child(2n + 2) {
+  opacity: 1;
+  margin-top: 0;
+  transition: all 0.3s ease 0.5s;
+}
+
+.experience-item--inviewport::after {
+  background: var(--color-las-palmas);
+  content: "";
+  width: 2px;
+  height: 100%;
+  top: 0;
+  left: -23.5px;
+  position: absolute;
+  opacity: 1;
+  animation-name: timeline;
+  animation-duration: 2s;
+}
+
+.experience-item--inviewport:nth-child(2n + 2)::after {
+  left: inherit;
+  right: -23.5px;
+}
+
+.experience-item--inviewport:first-child::after {
+  top: 50%;
+  height: 50%;
+  animation-name: timelineFirstLast;
+  animation-duration: 2s;
+}
+
+.experience-item--inviewport:last-child::after {
+  top: 0;
+  height: 50%;
+  animation-name: timelineFirstLast;
+  animation-duration: 2s;
+}
+
+@keyframes timeline {
+  from {
+    height: 0;
+  }
+  to {
+    height: 100%;
+  }
+}
+
+@keyframes timelineFirstLast {
+  from {
+    height: 0;
+  }
+  to {
+    height: 50%;
+  }
+}
+
+.experience-item--inviewport::before {
+  content: "";
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: var(--color-las-palmas);
+  left: -22px;
+  border-radius: 50%;
+  top: 50%;
+  transform: translate(-10px);
+  animation-name: timelineDot;
+  animation-duration: 2s;
+  animation-delay: 0s;
+}
+
+.experience-item--inviewport:nth-child(2n + 2)::before {
+  left: inherit;
+  right: -41.5px;
+}
+
+@keyframes timelineDot {
+  from {
+    width: 0;
+    height: 0;
+    transform: translate(0);
+  }
+  to {
+    width: 20px;
+    height: 20px;
+    transform: translate(-10px);
+  }
+}
+
+.experience-item h3 {
   color: var(--color-mandy);
+  font-family: "Secular One", sans-serif;
+}
+
+.experience-item__description {
+  margin-top: 10px;
+}
+
+.experience-item__tags {
+  margin-top: 10px;
+}
+
+.experience-item__tags span {
+  color: var(--color-mine-shaft);
   display: inline-flex;
-  padding: 5px;
+  background: var(--color-las-palmas);
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 20px;
+}
+
+.experience-item__tags span:not(:first-child),
+.experience-item__tags span:not(:last-child) {
+  margin-right: 4px;
 }
 
 .tag--selected {
   color: var(--color-mandy);
+}
+
+.experience-item__date {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+}
+
+.experience-item__date span {
+  font-family: "Archivo", sans-serif;
+  font-style: italic;
+  font-weight: bold;
+}
+
+.experience-item:nth-child(2n + 1) .experience-item__date,
+.experience-item:nth-child(2n + 2) .experience-item__date {
+  top: 50%;
+  transform: translateY(-50%);
+  width: fit-content;
+}
+
+.experience-item:nth-child(2n + 1) .experience-item__date {
+  justify-content: flex-end;
+  right: calc(100% + 50px);
+}
+
+.experience-item:nth-child(2n + 2) .experience-item__date {
+  justify-content: flex-start;
+  left: calc(100% + 50px);
+}
+
+.experience-item:nth-child(2n + 1) .experience-item__date span {
+  text-align: right;
+}
+
+.experience-item:nth-child(2n + 2) .experience-item__date span {
+  text-align: left;
+}
+
+.date--actual-job {
+  color: var(--color-las-palmas);
 }
 
 .contact-form .wrapper {
