@@ -7,7 +7,7 @@ import TagItem from "../atoms/TagItem";
 const checkFilter = (experience, filters) => {
   let experienceFiltered = false;
   filters.map((filter) => {
-    if (experience.acf.tags.indexOf(filter) > -1) {
+    if (experience.tags.indexOf(filter) > -1) {
       experienceFiltered = true;
     }
   });
@@ -29,7 +29,7 @@ const Experience = ({ data }) => {
     const customArray = [];
 
     data?.experiences?.map((item) => {
-      item.acf.tags.map((tag) => {
+      item?.tags?.split(";").map((tag) => {
         customArray.indexOf(tag) == -1 && customArray.push(tag);
       });
     });
@@ -81,15 +81,15 @@ const Experience = ({ data }) => {
             console.log(index);
             return (
               <ExperienceItem
-                job={item.title.rendered}
+                job={item.job}
                 city={item.city}
                 country={item.country}
-                startDate={item.acf.inicio}
-                finishDate={item.acf.final}
-                description={item.content.rendered}
+                startDate={item.startDate}
+                finishDate={item.finishDate}
+                description={item.description}
                 company={item.company}
                 keyIndex={index}
-                tags={item.acf.tags}
+                tags={item.tags}
               />
             );
           })}

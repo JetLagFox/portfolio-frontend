@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { getWPexperiences } from "../api/experience";
+import { getExperiences } from "../api/experience";
 
 import Experience from "../components/Experience";
 import ContactForm from "../components/ContactForm";
@@ -10,14 +10,14 @@ import Hero from "../compositions/Hero";
 const Index = ({ data }) => {
   useEffect(() => {
     data.experiences.sort(function (a, b) {
-      const dateA = a.acf.inicio;
+      const dateA = a.startDate;
       var datePartsA = dateA.split("/");
       var dateObjectA = new Date(`
         ${datePartsA[1]}/
         ${datePartsA[0] - 1}/
         ${datePartsA[2]}`);
 
-      const dateB = b.acf.inicio;
+      const dateB = b.startDate;
       var datePartsB = dateB.split("/");
       var dateObjectB = new Date(`
 				${datePartsB[1]}/
@@ -43,6 +43,6 @@ const Index = ({ data }) => {
 export default Index;
 
 Index.getInitialProps = async () => {
-  const experiences = await getWPexperiences();
+  const experiences = await getExperiences();
   return { data: experiences };
 };

@@ -33,31 +33,3 @@ export function getExperiences() {
       };
     });
 }
-
-export function getWPexperiences() {
-  const uri = `${BASE_WP_URI}/wp-json/wp/v2/experiences`;
-
-  const params = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  };
-
-  return fetch(uri, params)
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      console.log("response: ", response);
-      if (response) {
-        return {
-          status: 200,
-          experiences: response,
-        };
-      }
-
-      return {
-        status: 404,
-        message: "Hubo un problema al cargar las experiencias",
-      };
-    });
-}

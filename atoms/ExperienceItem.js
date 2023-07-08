@@ -33,7 +33,7 @@ const ExperienceItem = ({
       <div>
         <p className="experience-item__description">{description}</p>
         <div className="experience-item__tags">
-          {tags.map((item, index) => {
+          {tags.split(";").map((item, index) => {
             return <span key={index}>#{item}</span>;
           })}
         </div>
@@ -41,19 +41,19 @@ const ExperienceItem = ({
       <p className="experience-item__date date--desktop">
         <span className={`${!finishDate && "date--actual-job"}`}>
           {finishDate
-            ? finishDate?.substr(0, 2) +
+            ? finishDate?.substr(8, 2) +
               " de " +
-              fromIntToDate(finishDate?.substr(3, 2)) +
+              fromIntToDate(finishDate?.substr(5, 2)) +
               ", " +
-              finishDate?.substr(6, 4)
+              finishDate?.substr(0, 4)
             : "Actualmente"}
         </span>
         <span>
-          {startDate?.substr(0, 2) +
+          {startDate?.substr(8, 2) +
             " de " +
-            fromIntToDate(startDate?.substr(3, 2)) +
+            fromIntToDate(startDate?.substr(5, 2)) +
             ", " +
-            startDate?.substr(6, 4)}
+            startDate?.substr(0, 4)}
         </span>
       </p>
     </li>
