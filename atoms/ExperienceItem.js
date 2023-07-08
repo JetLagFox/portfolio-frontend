@@ -33,7 +33,7 @@ const ExperienceItem = ({
       <div>
         <p className="experience-item__description">{description}</p>
         <div className="experience-item__tags">
-          {tags.split(";").map((item, index) => {
+          {tags.map((item, index) => {
             return <span key={index}>#{item}</span>;
           })}
         </div>
@@ -41,19 +41,19 @@ const ExperienceItem = ({
       <p className="experience-item__date date--desktop">
         <span className={`${!finishDate && "date--actual-job"}`}>
           {finishDate
-            ? finishDate?.substr(8, 2) +
+            ? finishDate?.substr(0, 2) +
               " de " +
-              fromIntToDate(finishDate?.substr(5, 2)) +
+              fromIntToDate(finishDate?.substr(3, 2)) +
               ", " +
-              finishDate?.substr(0, 4)
+              finishDate?.substr(6, 4)
             : "Actualmente"}
         </span>
         <span>
-          {startDate?.substr(8, 2) +
+          {startDate?.substr(0, 2) +
             " de " +
-            fromIntToDate(startDate?.substr(5, 2)) +
+            fromIntToDate(startDate?.substr(3, 2)) +
             ", " +
-            startDate?.substr(0, 4)}
+            startDate?.substr(6, 4)}
         </span>
       </p>
     </li>
@@ -66,10 +66,10 @@ ExperienceItem.propTypes = {
   job: PropTypes.string,
   city: PropTypes.string,
   country: PropTypes.string,
-  startDate: PropTypes.instanceOf(Date),
-  finishDate: PropTypes.instanceOf(Date),
+  startDate: PropTypes.string,
+  finishDate: PropTypes.string,
   description: PropTypes.string,
   company: PropTypes.string,
   key: PropTypes.number,
-  tags: PropTypes.string,
+  tags: PropTypes.array,
 };
