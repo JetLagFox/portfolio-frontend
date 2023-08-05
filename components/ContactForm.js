@@ -11,7 +11,7 @@ const ContactForm = () => {
     subject: "",
   });
 
-  const handlChange = (e) => {
+  const handleChange = (e) => {
     setFormInputs({ ...formInputs, [e.target.name]: e.target.value });
   };
 
@@ -41,14 +41,14 @@ const ContactForm = () => {
           <form onSubmit={handleSubmit}>
             <div className="contact-form--2-column">
               <FormItem
-                handlChange={handlChange}
+                handleChange={handleChange}
                 formInputs={formInputs}
                 label="Nombre"
                 type="text"
                 name="name"
               />
               <FormItem
-                handlChange={handlChange}
+                handleChange={handleChange}
                 formInputs={formInputs}
                 label="Correo"
                 type="email"
@@ -57,7 +57,7 @@ const ContactForm = () => {
             </div>
 
             <FormItem
-              handlChange={handlChange}
+              handleChange={handleChange}
               formInputs={formInputs}
               label="Asunto"
               type="text"
@@ -65,7 +65,7 @@ const ContactForm = () => {
             />
 
             <FormItem
-              handlChange={handlChange}
+              handleChange={handleChange}
               formInputs={formInputs}
               label="Mensaje"
               type="textarea"

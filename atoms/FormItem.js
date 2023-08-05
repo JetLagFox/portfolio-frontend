@@ -1,16 +1,16 @@
-const FormItem = ({ handlChange, formInputs, name, type, label }) => {
+const FormItem = ({ handleChange, formInputs, name, type, label }) => {
   return (
     <>
       {type === "textarea" ? (
         <textarea
-          onChange={handlChange}
+          onChange={handleChange}
           name={name}
           value={formInputs[name]}
           placeholder={label}
         />
       ) : (
         <input
-          onChange={handlChange}
+          onChange={handleChange}
           name={name}
           type={type}
           value={formInputs[name]}
