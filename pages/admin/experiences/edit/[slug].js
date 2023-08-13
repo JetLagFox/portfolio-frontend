@@ -24,17 +24,15 @@ const EditExperience = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    const experienceId = "63de6fea981ed486a85fa2a3";
-    console.log("ME CAGL EN TO: ", router.query);
+    const experienceId = router.query.slug;
 
     const fetchData = async () => {
       const response = await getExperienceById(experienceId);
-      console.log("response: ", response);
       setData(response.experience);
     };
 
     fetchData();
-  }, [router.pathname]);
+  }, [router.pathname, router.query]);
 
   return (
     <AdminLayout breadcrumbs={pageBreadcrumbs} title="Editando experiencia">

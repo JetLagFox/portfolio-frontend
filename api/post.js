@@ -1,85 +1,81 @@
 const BASE_URI = process.env.NEXT_PUBLIC_BASE_API_URL;
 
-export function getUserByEmail(email) {
-  const uri = `${BASE_URI}/user-by-email/${email}`;
+export function getPostBySlug(slug) {
+  const uri = `${BASE_URI}/post/${slug}`;
 
   const params = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-  };
-
-  return fetch(uri, params)
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      if (response.user) {
-        return {
-          status: response.code,
-          user: response.user,
-        };
-      }
-
-      return {
-        status: response.code,
-        message: response.message,
-      };
-    })
-    .catch((err) => {
-      return {
-        status: err.code,
-        message: err.message,
-      };
-    });
-}
-
-export function getUserByName(email) {
-  const uri = `${BASE_URI}/user-by-name/${email}`;
-
-  const params = {
-    method: "GET",
-    headers: { "Content-Type": "application/json" },
-  };
-
-  return fetch(uri, params)
-    .then((response) => {
-      return response.json();
-    })
-    .then((response) => {
-      if (response.user) {
-        return {
-          status: response.status,
-          user: response.user,
-        };
-      }
-
-      return {
-        status: response.status,
-        user: response.message,
-      };
-    })
-    .catch((err) => {
-      return {
-        status: err.code,
-        message: err.message,
-      };
-    });
-}
-
-export function postUser(data) {
-  const uri = `${BASE_URI}/add-user`;
-
-  const params = {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(data),
   };
 
   return fetch(uri, params)
     .then((response) => response.json())
     .then((response) => {
-      console.log("responseeeeee:", response);
-      if (!response?.user) {
+      if (!response.post) {
+        return {
+          status: response.code,
+          message: response.message,
+        };
+      }
+
+      return {
+        status: response.code,
+        post: response.post,
+      };
+    })
+    .catch((err) => {
+      return {
+        status: err.code,
+        message: err.message,
+      };
+    });
+}
+
+export function getPosts() {
+  const uri = `${BASE_URI}/posts/`;
+
+  const params = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return fetch(uri, params)
+    .then((response) => response.json())
+    .then((response) => {
+      if (!response.posts) {
+        return {
+          status: response?.code,
+          message: response?.message,
+        };
+      }
+
+      return {
+        status: response.code,
+        posts: response?.posts,
+      };
+    })
+    .catch((err) => {
+      if (err) {
+        return {
+          status: err.code,
+          message: err.message,
+        };
+      }
+    });
+}
+
+export function deletePost(id) {
+  const uri = `${BASE_URI}/delete-post/${id}`;
+
+  const params = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return fetch(uri, params)
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code === 404) {
         return {
           status: response.code,
           message: "Algo salió mal",
@@ -88,7 +84,7 @@ export function postUser(data) {
 
       return {
         status: response.code,
-        user: response.user,
+        message: "Experiencia borrada",
       };
     })
     .catch((err) => {

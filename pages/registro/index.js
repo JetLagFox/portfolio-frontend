@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getUserByEmail, getUserByName } from "../../api/user";
+import { getUserByEmail, getUserByName, postUser } from "../../api/user";
+
+import customTransitions from "./../../utils/customTransitions";
 
 import FormNotifier from "../../components/FormNotifier";
 
@@ -15,6 +17,21 @@ const Register = () => {
     repassword: "",
   });
 
+  useEffect(() => {
+    customTransitions();
+  }, []);
+
+  useEffect(() => {
+    if (errors.length === 0 && checkingValidation) {
+      async function createUser() {
+        const apiResponse = await postUser(formData);
+        console.log(apiResponse);
+      }
+
+      createUser();
+    }
+  }, [errors, checkingValidation]);
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -22,11 +39,9 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormSubmitted(true);
-    const { user, email, password, repassword } = formData;
-    let formErrors = [];
+    setErrors([]);
 
-    console.log("formErrors ANTES: ", formErrors);
-    console.log("DATOS: ", user, email, password, repassword);
+    const { user, email, password, repassword } = formData;
 
     if (
       password.length === 0 ||
@@ -34,47 +49,55 @@ const Register = () => {
       user.length === 0 ||
       email.length === 0
     ) {
-      formErrors.push("Todos los campos son obligatorios");
-      setErrors(formErrors);
+      setErrors((prev) => [
+        ...prev,
+        {
+          field: "",
+          message: "Todos los campos son obligatorios",
+        },
+      ]);
     } else {
       if (password !== repassword) {
-        formErrors.push("Las contraseñas deben ser iguales");
+        setErrors((prev) => [
+          ...prev,
+          {
+            field: "password",
+            message: "Las contraseñas deben ser iguales",
+          },
+        ]);
       }
-
-      console.log(formErrors);
 
       async function checkEmailandUser() {
         const emailResponse = await getUserByEmail(email);
         const nameResponse = await getUserByName(user);
-        console.log("emailResponse", emailResponse);
-        console.log("nameResponse", nameResponse);
 
         if (emailResponse?.user.length > 0) {
-          formErrors.push("El correo ya está en uso.");
-          setErrors(formErrors);
-          console.log("FORM ERRORS email: ", formErrors);
+          setErrors((prev) => [
+            ...prev,
+            {
+              field: "email",
+              message: "El correo ya está en uso",
+            },
+          ]);
         }
 
-        console.log("NAME: ", nameResponse);
-
         if (nameResponse?.user.length > 0) {
-          formErrors.push("El nombre de usuario ya está en uso.");
-          setErrors(formErrors);
-          console.log("FORM ERRORS NAME: ", formErrors);
+          setErrors((prev) => [
+            ...prev,
+            {
+              field: "email",
+              message: "El nombre de usuario ya está en uso",
+            },
+          ]);
         }
 
         if (emailResponse?.user && nameResponse?.user) {
           setCheckingValidation(true);
-          console.log("FORM AL FINAL: ", formErrors);
-
-          setErrors(formErrors);
         }
       }
 
       checkEmailandUser();
     }
-
-    console.log("ERRORES AL FINAL: ", formErrors);
   };
 
   return (
@@ -82,6 +105,9 @@ const Register = () => {
       <div className="login__wrap">
         <form onSubmit={handleSubmit} method="post">
           <input
+            className={
+              errors.some((error) => error.field === "user") && "input--error"
+            }
             onChange={handleChange}
             type="text"
             name="user"
@@ -89,6 +115,9 @@ const Register = () => {
             value={formData.user}
           />
           <input
+            className={
+              errors.some((error) => error.field === "email") && "input--error"
+            }
             onChange={handleChange}
             type="email"
             name="email"
@@ -96,6 +125,10 @@ const Register = () => {
             value={formData.email}
           />
           <input
+            className={
+              errors.some((error) => error.field === "password") &&
+              "input--error"
+            }
             onChange={handleChange}
             type="password"
             name="password"

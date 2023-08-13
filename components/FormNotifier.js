@@ -16,7 +16,7 @@ const FormNotifier = ({ errors, send }) => {
       {errors.length > 0 ? (
         <ul>
           {errors.map((error, index) => {
-            return <li key={index}>{error}</li>;
+            return <li key={index}>{error.message}</li>;
           })}
         </ul>
       ) : (

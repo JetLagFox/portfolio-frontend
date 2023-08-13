@@ -1,7 +1,8 @@
 import Link from "next/link";
+
 import AdminLayout from "../../layouts/admin";
 
-const admin = () => {
+const Admin = () => {
   return (
     <AdminLayout>
       <div>Dashboard</div>
@@ -10,4 +11,4 @@ const admin = () => {
   );
 };
 
-export default admin;
+export default Admin;

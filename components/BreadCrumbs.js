@@ -1,3 +1,4 @@
+import React from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
 
@@ -6,7 +7,7 @@ const BreadCrumbs = ({ breadcrumbs }) => {
     <nav className="breadcrumbs">
       {breadcrumbs?.map((item, index) => {
         return (
-          <>
+          <React.Fragment key={index}>
             {item.href ? (
               <>
                 <Link href={item?.href}>{item?.title}</Link>
@@ -15,7 +16,7 @@ const BreadCrumbs = ({ breadcrumbs }) => {
             ) : (
               <span>{item?.title}</span>
             )}
-          </>
+          </React.Fragment>
         );
       })}
     </nav>

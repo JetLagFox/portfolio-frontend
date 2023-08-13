@@ -1,23 +1,61 @@
+import { useContext } from "react";
 import Link from "next/link";
+import PropTypes from "prop-types";
 
-const AdminCard = ({ experience }) => {
-  const { job, description, published, _id } = experience;
+import { AdminContext } from "./../context/AdminContext";
 
-  console.log("EXPRIENCE: ", experience);
+import Pencil from "./../svg/Pencil";
+import Delete from "./../svg/Delete";
+
+const AdminCard = ({
+  title,
+  description,
+  published,
+  id,
+  postType,
+  img = null,
+}) => {
+  const { setShowModal, setDeleteId } = useContext(AdminContext);
 
   return (
-    <div className="admincard__wrap">
-      <div className="admincard__wrap-left">
-        <h3>{job}</h3>
+    <div className="admin-card__wrap">
+      {img && <img src={img} />}
+      <div className="admin-card__content">
+        <h3>{title}</h3>
         <p>{description}</p>
       </div>
-      <div className="admincard__wrap-right">
-        <span>Borrar</span>
-        <Link href={`/admin/experiences/edit/${_id}`}>Editar</Link>
-        <span>{published ? "Publicado" : "Borrador"}</span>
+      <div className="admin-card__actions">
+        <p className="admin-card__publish-status">
+          {published ? "Publicado" : "Borrador"}
+          <span
+            className={`publish-status--${published ? "published" : "draft"}`}
+          ></span>
+        </p>
+        <span
+          onClick={() => {
+            setDeleteId(id);
+            setShowModal(true);
+          }}
+        >
+          <Delete />
+        </span>
+        <Link href={`/admin/${postType}/edit/${id}`}>
+          <a>
+            <Pencil />
+          </a>
+        </Link>
       </div>
     </div>
   );
 };
 
 export default AdminCard;
+
+AdminCard.proptypes = {
+  title: PropTypes.String,
+  description: PropTypes.String,
+  published: PropTypes.boolean,
+  id: PropTypes.String,
+  postType: PropTypes.String,
+  img: PropTypes.String,
+};

@@ -17,6 +17,7 @@ export function getExperiences() {
         return {
           status: response.code,
           experiences: response.experiences,
+          breadcrumbs: response.breadcrumbs,
         };
       }
 
@@ -72,8 +73,6 @@ export function addExperience(data) {
 export function getExperienceById(id) {
   const uri = `${BASE_URI}/experiences/${id}`;
 
-  console.log("URIIIII", uri);
-
   const params = {
     method: "GET",
     headers: { "Content-Type": "application/json" },
@@ -84,11 +83,11 @@ export function getExperienceById(id) {
       return response.json();
     })
     .then((response) => {
-      console.log("REPONSSSE: ", response);
       if (response.experience) {
         return {
           status: response.code,
           experience: response.experience,
+          breadcrumbs: response.breadcrumbs,
         };
       }
       return {
@@ -100,6 +99,37 @@ export function getExperienceById(id) {
       return {
         status: err.code,
         error: err.message,
+      };
+    });
+}
+
+export function deleteExperience(id) {
+  const uri = `${BASE_URI}/delete-experience/${id}`;
+
+  const params = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  return fetch(uri, params)
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code === 404) {
+        return {
+          status: response.code,
+          message: "Algo salió mal",
+        };
+      }
+
+      return {
+        status: response.code,
+        message: "Experiencia borrada",
+      };
+    })
+    .catch((err) => {
+      return {
+        status: err.code,
+        message: err.message,
       };
     });
 }
