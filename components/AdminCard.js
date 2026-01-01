@@ -7,14 +7,7 @@ import { AdminContext } from "./../context/AdminContext";
 import Pencil from "./../svg/Pencil";
 import Delete from "./../svg/Delete";
 
-const AdminCard = ({
-  title,
-  description,
-  published,
-  id,
-  postType,
-  img = null,
-}) => {
+const AdminCard = ({ title, description, published, id, postType, img = null }) => {
   const { setShowModal, setDeleteId } = useContext(AdminContext);
 
   return (
@@ -27,9 +20,7 @@ const AdminCard = ({
       <div className="admin-card__actions">
         <p className="admin-card__publish-status">
           {published ? "Publicado" : "Borrador"}
-          <span
-            className={`publish-status--${published ? "published" : "draft"}`}
-          ></span>
+          <span className={`publish-status--${published ? "published" : "draft"}`}></span>
         </p>
         <span
           onClick={() => {

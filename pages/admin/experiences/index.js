@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { getExperiences } from "../../../api/experience";
 
 import { AdminContext } from "./../../../context/AdminContext";
 
@@ -10,54 +9,69 @@ import AdminCard from "../../../components/AdminCard";
 import ModalLayout from "../../../layouts/modalWrapper";
 import DeleteModal from "../../../components/DeleteModal";
 
+import { getExperiencesPaginated, getExperienceByTitle } from "../../../api/experience";
+import Loader from "../../../components/Loader";
+
+const postType = "experiences";
+
 const Experiences = () => {
-  const {
-    showModal,
-    refreshData,
-    setRefreshData,
-    setBreadcrumbs,
-    breadcrumbs,
-  } = useContext(AdminContext);
-  const [experiences, setExperiences] = useState(null);
+  const { showModal } = useContext(AdminContext);
+  const [search, setSearch] = useState(null);
+  const [posts, setPosts] = useState(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await getExperiences();
-      setExperiences(response.experiences);
-      setBreadcrumbs(response.breadcrumbs);
-      setRefreshData(false);
-    };
+    async function getData() {
+      const response = await getExperiencesPaginated(page);
+      setPosts(response);
+    }
 
-    fetchData();
-  }, [refreshData === true]);
+    async function getFilteredData() {
+      const response = await getExperienceByTitle(search, page);
+      setPosts(response);
+    }
+
+    search?.length > 0 ? getFilteredData() : getData();
+  }, [page, search]);
 
   return (
-    <AdminLayout breadcrumbs={breadcrumbs} title="Experiencias">
-      {showModal && (
-        <ModalLayout>
-          <DeleteModal postType="experiences" />
-        </ModalLayout>
+    <>
+      {posts && (
+        <AdminLayout breadcrumbs={posts?.breadcrumbs} title="Experiencias">
+          {showModal && (
+            <ModalLayout>
+              <DeleteModal postType={postType} />
+            </ModalLayout>
+          )}
+          <PaginationWrapper
+            search={search}
+            setSearch={setSearch}
+            setPage={setPage}
+            hashNextPage={posts?.experiences?.hasNextPage}
+            hashPrevPage={posts?.experiences?.hasPrevPage}
+          >
+            {!posts && <Loader />}
+            {posts?.experiences?.docs.length > 0 ? (
+              posts?.experiences?.docs?.map((experience, index) => {
+                return (
+                  <React.Fragment key={index}>
+                    <AdminCard
+                      title={experience.job}
+                      description={experience.description}
+                      postType={postType}
+                      published={experience.published}
+                      id={experience._id}
+                    />
+                  </React.Fragment>
+                );
+              })
+            ) : (
+              <p>No hay resultados que mostrar</p>
+            )}
+          </PaginationWrapper>
+        </AdminLayout>
       )}
-      <PaginationWrapper
-        data={experiences}
-        setData={setExperiences}
-        postType="experiences"
-      >
-        {experiences?.map((experience, index) => {
-          return (
-            <React.Fragment key={index}>
-              <AdminCard
-                title={experience.job}
-                description={experience.description}
-                postType="experiences"
-                published={experience.published}
-                id={experience._id}
-              />
-            </React.Fragment>
-          );
-        })}
-      </PaginationWrapper>
-    </AdminLayout>
+    </>
   );
 };
 

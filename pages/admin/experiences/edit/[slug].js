@@ -1,9 +1,10 @@
-import AdminLayout from "../../../../layouts/admin";
-import { getExperienceById } from "../../../../api/experience";
-import ExperienceForm from "../../../../components/ExperienceForm";
-
-import { useRouter } from "next/router";
 import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
+import { useExperienceById } from "../../../../hooks/experiences";
+
+import AdminLayout from "../../../../layouts/admin";
+import ExperienceForm from "../../../../components/ExperienceForm";
 
 const pageBreadcrumbs = [
   {
@@ -21,23 +22,32 @@ const pageBreadcrumbs = [
 
 const EditExperience = () => {
   const router = useRouter();
-  const [data, setData] = useState(null);
+  const [experienceId, setExperienceId] = useState(null);
+  const { data, isLoading, isError } = useExperienceById(experienceId);
 
   useEffect(() => {
-    const experienceId = router.query.slug;
+    console.log("ESTO ES SLUG, ", router.query.slug);
+    if (router.query.slug) {
+      setExperienceId(router.query.slug);
+    }
+  }, [router.query.slug]);
 
-    const fetchData = async () => {
-      const response = await getExperienceById(experienceId);
-      setData(response.experience);
-    };
-
-    fetchData();
-  }, [router.pathname, router.query]);
+  useEffect(() => {
+    console.log("ESTO ES DATA: ", data);
+  }, [data]);
 
   return (
-    <AdminLayout breadcrumbs={pageBreadcrumbs} title="Editando experiencia">
-      <ExperienceForm experienceData={data} />
-    </AdminLayout>
+    <>
+      {isLoading && <h1>Cargando...</h1>}
+
+      {isError && <h1>Hubo algún error</h1>}
+
+      {!isError && !isLoading && (
+        <AdminLayout breadcrumbs={pageBreadcrumbs} title="Editando experiencia">
+          <ExperienceForm experienceData={data?.experience} id={experienceId} />
+        </AdminLayout>
+      )}
+    </>
   );
 };
 

@@ -1,10 +1,8 @@
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
-const FormNotifier = ({ errors, send }) => {
-  if (!send) {
-    return null;
-  }
+const FormNotifier = ({ errors }) => {
+  if (errors?.length === 0) return;
 
   return (
     <div
@@ -13,14 +11,12 @@ const FormNotifier = ({ errors, send }) => {
         "notifier--error": errors.length > 0,
       })}
     >
-      {errors.length > 0 ? (
+      {errors.length > 0 && (
         <ul>
           {errors.map((error, index) => {
             return <li key={index}>{error.message}</li>;
           })}
         </ul>
-      ) : (
-        <p>El formulario se envió satisfactoriamente</p>
       )}
     </div>
   );

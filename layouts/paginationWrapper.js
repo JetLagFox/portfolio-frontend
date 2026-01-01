@@ -1,60 +1,51 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
+
+import { IconChevronLeft, IconChevronRight } from "@tabler/icons-react";
 
 import GridIcon from "../svg/Grid";
 import ListIcon from "../svg/List";
 import SearchIcon from "../svg/Search";
 import AddIcon from "../svg/Add";
-import searchMatches from "../utils/searchMatches";
 
-const PaginationWrapper = ({ children, data, setData, postType }) => {
+const PaginationWrapper = ({ children, search, setSearch, setPage, hashNextPage, hashPrevPage }) => {
   const [activeButton, setActiveButton] = useState("grid");
   const [showSearchBar, setShowSearchBar] = useState(false);
-  const [search, setSearch] = useState(null);
-  const originalData = useRef(data);
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
   };
 
-  useEffect(() => {
-    if (!originalData.current) {
-      originalData.current = data;
-    }
-  }, [data]);
-
-  useEffect(() => {
-    search?.length === 0
-      ? setData(originalData.current)
-      : setData(
-          originalData.current?.filter((item) => {
-            return searchMatches(postType, item, search);
-          })
-        );
-  }, [search]);
-
   return (
     <>
       <div className="pagination-actions">
-        <div
-          className={`pagination-actions__group ${
-            showSearchBar && "search--open"
-          }`}
-        >
+        <div className="pagination-actions__group">
+          {hashPrevPage ? (
+            <span onClick={() => setPage((prev) => prev - 1)}>
+              <IconChevronLeft color="white" size={16} />
+            </span>
+          ) : (
+            <span style={{ color: "grey" }}>
+              <IconChevronLeft color="grey" size={16} />
+            </span>
+          )}
+          {hashNextPage ? (
+            <span onClick={() => setPage((prev) => prev + 1)}>
+              <IconChevronRight color="white" size={16} />
+            </span>
+          ) : (
+            <span style={{ color: "grey" }}>
+              <IconChevronRight color="grey" size={16} />
+            </span>
+          )}
+        </div>
+        <div className={`pagination-actions__group ${showSearchBar && "search--open"}`}>
           {showSearchBar && (
             <form>
-              <input
-                onChange={handleSearch}
-                name="search"
-                type="text"
-                defaultValue={search}
-              />
+              <input onChange={handleSearch} name="search" type="text" defaultValue={search} />
             </form>
           )}
-          <span
-            className="pagination-actions__icon"
-            onClick={() => setShowSearchBar(!showSearchBar)}
-          >
+          <span className="pagination-actions__icon" onClick={() => setShowSearchBar(!showSearchBar)}>
             <SearchIcon />
           </span>
         </div>
@@ -67,26 +58,20 @@ const PaginationWrapper = ({ children, data, setData, postType }) => {
         </div>
         <div className="pagination-actions__group">
           <span
-            className={`pagination-actions__icon ${
-              activeButton === "grid" && "icon--active"
-            }`}
+            className={`pagination-actions__icon ${activeButton === "grid" && "icon--active"}`}
             onClick={() => setActiveButton("grid")}
           >
             <GridIcon />
           </span>
           <span
-            className={`pagination-actions__icon ${
-              activeButton === "linear" && "icon--active"
-            }`}
+            className={`pagination-actions__icon ${activeButton === "linear" && "icon--active"}`}
             onClick={() => setActiveButton("linear")}
           >
             <ListIcon />
           </span>
         </div>
       </div>
-      <div className={`pagination-wrapper pagination--${activeButton}`}>
-        {children}
-      </div>
+      <div className={`pagination-wrapper pagination--${activeButton}`}>{children}</div>
     </>
   );
 };

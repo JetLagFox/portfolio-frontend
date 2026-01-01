@@ -26,7 +26,5 @@ const BreadCrumbs = ({ breadcrumbs }) => {
 export default BreadCrumbs;
 
 BreadCrumbs.propTypes = {
-  breadcrumbs: PropTypes.shape({
-    title: PropTypes.string,
-  }),
+  breadcrumbs: PropTypes.array,
 };

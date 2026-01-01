@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 
 import { AdminContext } from "../../../context/AdminContext";
 
-import { getPosts } from "../../../api/post";
+import { getPostsPaginated, getPostsByTitle } from "../../../api/post";
 
 import AdminLayout from "../../../layouts/admin";
 import ModalLayout from "../../../layouts/modalWrapper";
@@ -10,44 +10,52 @@ import PaginationWrapper from "../../../layouts/paginationWrapper";
 
 import AdminCard from "../../../components/AdminCard";
 import DeleteModal from "../../../components/DeleteModal";
+import Loader from "../../../components/Loader";
+
+const postType = "posts";
 
 const Posts = () => {
-  const {
-    setBreadcrumbs,
-    breadcrumbs,
-    showModal,
-    refreshData,
-    setRefreshData,
-  } = useContext(AdminContext);
+  const { showModal } = useContext(AdminContext);
   const [posts, setPosts] = useState(null);
+  const [search, setSearch] = useState(null);
+  const [page, setPage] = useState(1);
 
   useEffect(() => {
-    async function getPostsData() {
-      const postsResponse = await getPosts();
-      if (postsResponse.status === 200) {
-        setPosts(postsResponse.posts);
-        setBreadcrumbs(postsResponse.breadcrumbs);
-        setRefreshData(false);
-      }
+    async function getData() {
+      const response = await getPostsPaginated(page);
+      setPosts(response);
     }
-    getPostsData();
-  }, [refreshData === true]);
+
+    async function getFilteredData() {
+      const response = await getPostsByTitle(search, page);
+      setPosts(response);
+    }
+
+    search?.length > 0 ? getFilteredData() : getData();
+  }, [page, search]);
 
   return (
-    <AdminLayout breadcrumbs={breadcrumbs} title="Artículos">
+    <AdminLayout breadcrumbs={posts?.breadcrumbs} title="Artículos">
       {showModal && (
         <ModalLayout>
-          <DeleteModal postType="posts" />
+          <DeleteModal postType={postType} />
         </ModalLayout>
       )}
-      <PaginationWrapper data={posts} setData={setPosts} postType="posts">
-        {posts?.map((post, index) => {
+      <PaginationWrapper
+        search={search}
+        setSearch={setSearch}
+        setPage={setPage}
+        hashNextPage={posts?.posts?.hasNextPage}
+        hashPrevPage={posts?.posts?.hasPrevPage}
+      >
+        {!posts && <Loader />}
+        {posts?.posts?.docs?.map((post, index) => {
           return (
             <React.Fragment key={index}>
               <AdminCard
                 title={post.title}
                 description={post.excerpt}
-                postType="posts"
+                postType={postType}
                 published={post.published}
                 id={post._id}
                 img={post.img}

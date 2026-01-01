@@ -31,6 +31,30 @@ export function getPostBySlug(slug) {
     });
 }
 
+export async function getPostsPaginated(page) {
+  const uri = `${BASE_URI}/posts/${page}`;
+
+  const params = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  const response = await fetch(uri, params);
+  return await response.json();
+}
+
+export async function getPostsByTitle(title, page) {
+  const uri = `${BASE_URI}/search-post/${title}/${page}`;
+
+  const params = {
+    method: "GET",
+    headers: { "Content-Type": "application/json" },
+  };
+
+  const response = await fetch(uri, params);
+  return await response.json();
+}
+
 export function getPosts() {
   const uri = `${BASE_URI}/posts/`;
 

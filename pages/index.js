@@ -9,7 +9,7 @@ import Hero from "../compositions/Hero";
 
 const Index = ({ data }) => {
   useEffect(() => {
-    data.experiences.sort(function (a, b) {
+    data?.experiences?.sort(function (a, b) {
       const dateA = a.startDate;
       var datePartsA = dateA.split("/");
       var dateObjectA = new Date(`
