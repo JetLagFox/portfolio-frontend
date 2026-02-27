@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { getPostBySlug } from "../../api/post";
+import { getPostBySlug } from "@api/post";
 
-import Header from "../../compositions/Header";
+import Header from "@compositions/Header";
 
 const Post = () => {
   const [post, setPost] = useState(null);

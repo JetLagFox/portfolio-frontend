@@ -574,6 +574,25 @@ form {
   border-color: var(--color-mandy);
 }
 
+.admin-wrapper .input--slug {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.admin-wrapper .input--slug span {
+  display: inline-flex;
+  margin-right: 4px;
+  font-size: 10px;
+}
+
+.admin-wrapper .input--slug input {
+  flex: 1 1 100%;
+  margin-top: 0;
+  padding: 0 4px;
+  font-size: 10px;
+}
+
 .contact-form .contact-form--2-column:not(:first-child) {
   margin-top: 16px;
 }
@@ -824,6 +843,7 @@ a[class="primary-button"]:hover {
   padding: 12px;
   flex: 0 0 auto;
   width: auto;
+  height: fit-content;
 }
 
 .pagination-actions__group.search--open form {
@@ -856,6 +876,7 @@ a[class="primary-button"]:hover {
 
 .pagination-actions__icon {
   fill: var(--color-white);
+  height: 16px;
 }
 
 .icon--active {

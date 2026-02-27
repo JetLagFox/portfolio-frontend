@@ -8,7 +8,7 @@ import ListIcon from "../svg/List";
 import SearchIcon from "../svg/Search";
 import AddIcon from "../svg/Add";
 
-const PaginationWrapper = ({ children, search, setSearch, setPage, hashNextPage, hashPrevPage }) => {
+const PaginationWrapper = ({ children, search, setSearch, setPage, hashNextPage, hashPrevPage, adminLink }) => {
   const [activeButton, setActiveButton] = useState("grid");
   const [showSearchBar, setShowSearchBar] = useState(false);
 
@@ -21,20 +21,20 @@ const PaginationWrapper = ({ children, search, setSearch, setPage, hashNextPage,
       <div className="pagination-actions">
         <div className="pagination-actions__group">
           {hashPrevPage ? (
-            <span onClick={() => setPage((prev) => prev - 1)}>
+            <span className={`pagination-actions__icon`} onClick={() => setPage((prev) => prev - 1)}>
               <IconChevronLeft color="white" size={16} />
             </span>
           ) : (
-            <span style={{ color: "grey" }}>
+            <span className={`pagination-actions__icon`} style={{ color: "grey" }}>
               <IconChevronLeft color="grey" size={16} />
             </span>
           )}
           {hashNextPage ? (
-            <span onClick={() => setPage((prev) => prev + 1)}>
+            <span className={`pagination-actions__icon`} onClick={() => setPage((prev) => prev + 1)}>
               <IconChevronRight color="white" size={16} />
             </span>
           ) : (
-            <span style={{ color: "grey" }}>
+            <span className={`pagination-actions__icon`} style={{ color: "grey" }}>
               <IconChevronRight color="grey" size={16} />
             </span>
           )}
@@ -50,7 +50,7 @@ const PaginationWrapper = ({ children, search, setSearch, setPage, hashNextPage,
           </span>
         </div>
         <div className="pagination-actions__group">
-          <Link href="/">
+          <Link href={adminLink}>
             <a className={`pagination-actions__icon`}>
               <AddIcon />
             </a>

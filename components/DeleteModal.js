@@ -1,12 +1,12 @@
 import { useContext, useState } from "react";
 import { useRouter } from "next/router";
 
-import { AdminContext } from "../context/AdminContext";
+import { AdminContext } from "@context/AdminContext";
 
-import { deleteExperience } from "../api/experience";
-import { deletePost } from "../api/post";
+import { deleteExperience } from "@api/experience";
+import { deletePost } from "@api/post";
 
-import FormNotifier from "./FormNotifier";
+import FormNotifier from "@components/FormNotifier";
 
 const DeleteModal = ({ postType }) => {
   const router = useRouter();

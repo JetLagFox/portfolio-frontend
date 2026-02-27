@@ -118,3 +118,67 @@ export function deletePost(id) {
       };
     });
 }
+
+export function updatePost(id, postData) {
+  const uri = `${BASE_URI}/update-post/${id}`;
+
+  const params = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData),
+  };
+
+  return fetch(uri, params)
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code === 404) {
+        return {
+          status: response.code,
+          message: "Algo salió mal",
+        };
+      }
+
+      return {
+        status: response.code,
+        message: "Post actualizado correctamente",
+      };
+    })
+    .catch((err) => {
+      return {
+        status: err.code,
+        message: err.message,
+      };
+    });
+}
+
+export function addPost(postData) {
+  const uri = `${BASE_URI}/add-post/`;
+
+  const params = {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData),
+  };
+
+  return fetch(uri, params)
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code === 404) {
+        return {
+          status: response.code,
+          message: "Algo salió mal",
+        };
+      }
+
+      return {
+        status: response.code,
+        message: "Post añadido correctamente",
+      };
+    })
+    .catch((err) => {
+      return {
+        status: err.code,
+        message: err.message,
+      };
+    });
+}

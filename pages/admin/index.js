@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { IconBook, IconArticle, IconMicroscope } from "@tabler/icons-react";
 
-import AdminLayout from "../../layouts/admin";
+import AdminLayout from "@layouts/admin";
 
 const adminRoutes = [
   { title: "Experiencias", url: "/admin/experiences", icon: IconBook },

@@ -1,16 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { AdminContext } from "./../../../context/AdminContext";
+import { AdminContext } from "@context/AdminContext";
+import { getExperiencesPaginated, getExperienceByTitle } from "@api/experience";
 
-import AdminLayout from "../../../layouts/admin";
-
-import PaginationWrapper from "../../../layouts/paginationWrapper";
-import AdminCard from "../../../components/AdminCard";
-import ModalLayout from "../../../layouts/modalWrapper";
-import DeleteModal from "../../../components/DeleteModal";
-
-import { getExperiencesPaginated, getExperienceByTitle } from "../../../api/experience";
-import Loader from "../../../components/Loader";
+import AdminLayout from "@layouts/admin";
+import PaginationWrapper from "@layouts/paginationWrapper";
+import ModalLayout from "@layouts/modalWrapper";
+import AdminCard from "@components/AdminCard";
+import DeleteModal from "@components/DeleteModal";
+import Loader from "@components/Loader";
 
 const postType = "experiences";
 
@@ -49,6 +47,7 @@ const Experiences = () => {
             setPage={setPage}
             hashNextPage={posts?.experiences?.hasNextPage}
             hashPrevPage={posts?.experiences?.hasPrevPage}
+            adminLink="/admin/experiences/new"
           >
             {!posts && <Loader />}
             {posts?.experiences?.docs.length > 0 ? (

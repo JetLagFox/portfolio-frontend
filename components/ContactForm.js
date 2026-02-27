@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormItem from "../atoms/formItem";
+import FormItem from "@atoms/formItem";
 
 const ContactForm = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);

@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
 
-import { AdminContext } from "../../../context/AdminContext";
+import { AdminContext } from "@context/AdminContext";
 
-import { getPostsPaginated, getPostsByTitle } from "../../../api/post";
+import { getPostsPaginated, getPostsByTitle } from "@api/post";
 
-import AdminLayout from "../../../layouts/admin";
-import ModalLayout from "../../../layouts/modalWrapper";
-import PaginationWrapper from "../../../layouts/paginationWrapper";
+import AdminLayout from "@layouts/admin";
+import ModalLayout from "@layouts/modalWrapper";
+import PaginationWrapper from "@layouts/paginationWrapper";
 
-import AdminCard from "../../../components/AdminCard";
-import DeleteModal from "../../../components/DeleteModal";
-import Loader from "../../../components/Loader";
+import AdminCard from "@components/AdminCard";
+import DeleteModal from "@components/DeleteModal";
+import Loader from "@components/Loader";
 
 const postType = "posts";
 
@@ -47,6 +47,7 @@ const Posts = () => {
         setPage={setPage}
         hashNextPage={posts?.posts?.hasNextPage}
         hashPrevPage={posts?.posts?.hasPrevPage}
+        adminLink="/admin/posts/new"
       >
         {!posts && <Loader />}
         {posts?.posts?.docs?.map((post, index) => {

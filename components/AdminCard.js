@@ -2,10 +2,10 @@ import { useContext } from "react";
 import Link from "next/link";
 import PropTypes from "prop-types";
 
-import { AdminContext } from "./../context/AdminContext";
+import { AdminContext } from "@context/AdminContext";
 
-import Pencil from "./../svg/Pencil";
-import Delete from "./../svg/Delete";
+import Pencil from "@svg/Pencil";
+import Delete from "@svg/Delete";
 
 const AdminCard = ({ title, description, published, id, postType, img = null }) => {
   const { setShowModal, setDeleteId } = useContext(AdminContext);

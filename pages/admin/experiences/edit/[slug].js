@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { useExperienceById } from "../../../../hooks/experiences";
+import { useExperienceById } from "@hooks/experiences";
 
-import AdminLayout from "../../../../layouts/admin";
-import ExperienceForm from "../../../../components/ExperienceForm";
+import AdminLayout from "@layouts/admin";
+import ExperienceForm from "@components/ExperienceForm";
 
 const pageBreadcrumbs = [
   {

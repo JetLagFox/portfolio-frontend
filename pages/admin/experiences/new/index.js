@@ -1,5 +1,5 @@
-import AdminLayout from "../../../../layouts/admin";
-import ExperienceForm from "../../../../components/ExperienceForm";
+import AdminLayout from "@layouts/admin";
+import ExperienceForm from "@components/ExperienceForm";
 
 const pageBreadcrumbs = [
   {

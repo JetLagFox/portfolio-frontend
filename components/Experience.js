@@ -1,8 +1,8 @@
 import { useEffect, useState, useRef } from "react";
 import { useInViewport } from "react-in-viewport";
 
-import ExperienceItem from "./../atoms/ExperienceItem";
-import TagItem from "../atoms/TagItem";
+import ExperienceItem from "@atoms/ExperienceItem";
+import TagItem from "@atoms/TagItem";
 
 const checkFilter = (experience, filters) => {
   let experienceFiltered = false;

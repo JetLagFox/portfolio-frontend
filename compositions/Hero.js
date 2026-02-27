@@ -6,7 +6,7 @@ const Hero = () => {
           <h1>
             ¡Hola! Me llamo <span className="hero__content-special">E</span>goi,
             <br />
-            soy&nbsp;<span class="typewriter thick"></span>
+            soy&nbsp;<span className="typewriter thick"></span>
           </h1>
           <p className="show-custom-tag">
             Diplomado en Ingeniería Técnica. Desarrollador Front-end. Analista

@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import { useInViewport } from "react-in-viewport";
 import PropTypes from "prop-types";
-import { fromIntToDate } from "../functions";
+import { fromIntToDate } from "@/functions";
 
 const ExperienceItem = ({
   job,

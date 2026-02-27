@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { getUserByEmail, getUserByName, postUser } from "../../api/user";
+import { getUserByEmail, getUserByName, postUser } from "@api/user";
 
-import customTransitions from "./../../utils/customTransitions";
+import customTransitions from "@utils/customTransitions";
 
-import FormNotifier from "../../components/FormNotifier";
+import FormNotifier from "@components/FormNotifier";
 
 const Register = () => {
   const [errors, setErrors] = useState([]);

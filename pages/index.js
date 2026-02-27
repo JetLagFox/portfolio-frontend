@@ -1,11 +1,11 @@
 import { useEffect } from "react";
 
-import { getExperiences } from "../api/experience";
+import { getExperiences } from "@api/experience";
 
-import Experience from "../components/Experience";
-import ContactForm from "../components/ContactForm";
-import Header from "../compositions/Header";
-import Hero from "../compositions/Hero";
+import Experience from "@components/Experience";
+import ContactForm from "@components/ContactForm";
+import Header from "@compositions/Header";
+import Hero from "@compositions/Hero";
 
 const Index = ({ data }) => {
   useEffect(() => {

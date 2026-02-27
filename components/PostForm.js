@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { useMutation } from "react-query";
 import GridLoader from "react-spinners/GridLoader";
+import MarkdownEditor from '@components/MarkdownEditor';
 
-import { useExperienceFormValidation } from "@hooks/useExperienceFormValidation";
-import { addExperience, updateExperience } from "@api/experience";
+import { usePostFormValidation } from "@hooks/usePostFormValidation";
+import { addPost, updatePost } from "@api/post";
 
 import FormNotifier from "@components/FormNotifier";
 import SuccessIcon from "@svg/Success";
 import Link from "next/link";
 
-const ExperienceForm = ({ experienceData, id = null }) => {
-  const { errors, formData, setFormData } = useExperienceFormValidation(experienceData, id);
+const BASE_URI = process.env.NEXT_PUBLIC_BASE_URL;
+
+const PostForm = ({ postData, id = null }) => {
+	const [formSend, setFormSend] = useState(false);
+  const { errors, formData, setFormData } = usePostFormValidation(postData, formSend);
   const [responseStatus, setResponseStatus] = useState(null);
   const { mutate, isLoading, isError } = useMutation(
-    id ? () => updateExperience(id, formData) : () => addExperience(formData),
+    id ? () => updatePost(id, formData) : () => addPost(formData),
     {
       onSuccess: (data) => {
         console.log(data);
@@ -61,47 +65,49 @@ const ExperienceForm = ({ experienceData, id = null }) => {
               )}
             </div>
           )}
+					<div className="input--slug">
+						<span>{BASE_URI}/articulo/</span>
+						<input
+							onChange={handleChange}
+							onBlur={handleChange}
+							className={errors.some((error) => error.field === "slug") ? "input--error" : ""}
+							name="slug"
+							type="text"
+							defaultValue={formData.slug}
+							placeholder="Slug"
+							disabled={isLoading}
+						/>
+					</div>
           <input
             onChange={handleChange}
             onBlur={handleChange}
-            className={errors.some((error) => error.field === "job") ? "input--error" : ""}
-            name="job"
+            className={errors.some((error) => error.field === "title") ? "input--error" : ""}
+            name="title"
             type="text"
-            defaultValue={formData.job}
+            defaultValue={formData.title}
             placeholder="Título"
             disabled={isLoading}
           />
-          <div className="contact-form--2-column">
-            <input
-              onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "city") ? "input--error" : ""}
-              name="city"
-              type="text"
-              defaultValue={formData.city}
-              placeholder="Ciudad"
-              disabled={isLoading}
-            />
-            <input
-              onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "company") ? "input--error" : ""}
-              name="company"
-              type="text"
-              defaultValue={formData.company}
-              placeholder="Empresa"
-              disabled={isLoading}
-            />
-          </div>
           <textarea
             onChange={handleChange}
             onBlur={handleChange}
-            className={errors.some((error) => error.field === "description") ? "input--error" : ""}
-            name="description"
-            defaultValue={formData.description}
+            className={errors.some((error) => error.field === "excerpt") ? "input--error" : ""}
+            name="excerpt"
+            defaultValue={formData.excerpt}
             placeholder="Descripción"
             disabled={isLoading}
           />
+          <div className={errors.some((error) => error.field === 'content') ? 'input--error' : ''}>
+						<MarkdownEditor
+							value={formData.content && ''}
+							onChange={(markdown) =>
+								setFormData({
+									...formData,
+									content: markdown
+								})
+							}
+						/>
+					</div>
           <input
             onChange={handleChange}
             onBlur={handleChange}
@@ -110,25 +116,6 @@ const ExperienceForm = ({ experienceData, id = null }) => {
             defaultValue={formData.tags}
             placeholder="Etiquetas"
           />
-          <div className="contact-form--2-column">
-            <input
-              onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "startDate") ? "input--error" : ""}
-              name="startDate"
-              type="date"
-              defaultValue={formData.startDate}
-              disabled={isLoading}
-            />
-            <input
-              onChange={handleChange}
-              onBlur={handleChange}
-              name="finishDate"
-              type="date"
-              defaultValue={formData.finishDate}
-              disabled={isLoading}
-            />
-          </div>
 
           <FormNotifier errors={errors} />
 
@@ -136,16 +123,18 @@ const ExperienceForm = ({ experienceData, id = null }) => {
             <input
               onClick={() => {
                 setFormData({ ...formData, published: false });
+								setFormSend(true);
               }}
               type="submit"
-              value="Guardar Experiencia"
+              value="Guardar Artículo"
             />
             <input
               onClick={() => {
                 setFormData({ ...formData, published: true });
+								setFormSend(true);
               }}
               type="submit"
-              value={isLoading ? "Registrando..." : experienceData ? "Actualizar Experiencia" : "Registrar Experiencia"}
+              value={isLoading ? "Registrando..." : postData ? "Actualizar Artículo" : "Registrar Artículo"}
             />
           </div>
         </form>
@@ -155,4 +144,4 @@ const ExperienceForm = ({ experienceData, id = null }) => {
   );
 };
 
-export default ExperienceForm;
+export default PostForm;
