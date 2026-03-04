@@ -6,22 +6,29 @@ import { useExperienceFormValidation } from "@hooks/useExperienceFormValidation"
 import { addExperience, updateExperience } from "@api/experience";
 
 import FormNotifier from "@components/FormNotifier";
-import SuccessIcon from "@svg/Success";
-import Link from "next/link";
+import FormSuccess from "@components/FormSuccess";
 
 const ExperienceForm = ({ experienceData, id = null }) => {
-  const { errors, formData, setFormData } = useExperienceFormValidation(experienceData, id);
+  const { errors, formData, setFormData, handleBlur, touched, validateAll } = useExperienceFormValidation(experienceData, id);
   const [responseStatus, setResponseStatus] = useState(null);
+  const [responseMessage, setResponseMessage] = useState("");
   const { mutate, isLoading, isError } = useMutation(
     id ? () => updateExperience(id, formData) : () => addExperience(formData),
     {
       onSuccess: (data) => {
         console.log(data);
-        setResponseStatus(200);
+        if (data.status === 200) {
+          setResponseStatus(200);
+          setResponseMessage(data.message);
+        } else {
+          setResponseStatus(data.status || 500);
+          setResponseMessage(data.message || "Error al guardar");
+        }
       },
       onError: (err) => {
         console.log("Error: ", err);
         setResponseStatus(500);
+        setResponseMessage("Error de conexión");
       },
     }
   );
@@ -33,7 +40,9 @@ const ExperienceForm = ({ experienceData, id = null }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (errors.length === 0) {
+    const isValid = validateAll();
+
+    if (isValid) {
       if (id) {
         mutate({ id, formData });
       } else {
@@ -42,29 +51,29 @@ const ExperienceForm = ({ experienceData, id = null }) => {
     }
   };
 
+  if (responseStatus === 200) {
+    return (
+      <FormSuccess
+        message={responseMessage || "Experiencia guardada correctamente"}
+        backHref="/admin/experiencias"
+        backLabel="Ver experiencias"
+      />
+    );
+  }
+
   return (
     <>
       {!isLoading && (
         <form onSubmit={handleSubmit} method="post">
-          {(responseStatus === 200 || isLoading) && (
-            <div className="form-layer">
-              {responseStatus === 200 ? (
-                <div>
-                  <SuccessIcon />
-                  <p style={{ marginTop: "20px" }}>Formulario enviado correctamente</p>
-                  <Link href="/admin/experiencias">
-                    <a className="primary-button">Ver Experiencias</a>
-                  </Link>
-                </div>
-              ) : (
-                <GridLoader color="#36d7b7" />
-              )}
+          {responseStatus && responseStatus !== 200 && (
+            <div className="form-notifier notifier--error">
+              <p>Error {responseStatus}: {responseMessage || "no se pudo guardar la experiencia"}.</p>
             </div>
           )}
           <input
             onChange={handleChange}
-            onBlur={handleChange}
-            className={errors.some((error) => error.field === "job") ? "input--error" : ""}
+            onBlur={handleBlur}
+            className={errors.some((error) => error.field === "job") && touched.job ? "input--error" : ""}
             name="job"
             type="text"
             defaultValue={formData.job}
@@ -74,8 +83,8 @@ const ExperienceForm = ({ experienceData, id = null }) => {
           <div className="contact-form--2-column">
             <input
               onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "city") ? "input--error" : ""}
+              onBlur={handleBlur}
+              className={errors.some((error) => error.field === "city") && touched.city ? "input--error" : ""}
               name="city"
               type="text"
               defaultValue={formData.city}
@@ -84,8 +93,8 @@ const ExperienceForm = ({ experienceData, id = null }) => {
             />
             <input
               onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "company") ? "input--error" : ""}
+              onBlur={handleBlur}
+              className={errors.some((error) => error.field === "company") && touched.company ? "input--error" : ""}
               name="company"
               type="text"
               defaultValue={formData.company}
@@ -95,8 +104,8 @@ const ExperienceForm = ({ experienceData, id = null }) => {
           </div>
           <textarea
             onChange={handleChange}
-            onBlur={handleChange}
-            className={errors.some((error) => error.field === "description") ? "input--error" : ""}
+            onBlur={handleBlur}
+            className={errors.some((error) => error.field === "description") && touched.description ? "input--error" : ""}
             name="description"
             defaultValue={formData.description}
             placeholder="Descripción"
@@ -104,7 +113,7 @@ const ExperienceForm = ({ experienceData, id = null }) => {
           />
           <input
             onChange={handleChange}
-            onBlur={handleChange}
+            onBlur={handleBlur}
             name="tags"
             type="text"
             defaultValue={formData.tags}
@@ -113,8 +122,8 @@ const ExperienceForm = ({ experienceData, id = null }) => {
           <div className="contact-form--2-column">
             <input
               onChange={handleChange}
-              onBlur={handleChange}
-              className={errors.some((error) => error.field === "startDate") ? "input--error" : ""}
+              onBlur={handleBlur}
+              className={errors.some((error) => error.field === "startDate") && touched.startDate ? "input--error" : ""}
               name="startDate"
               type="date"
               defaultValue={formData.startDate}
@@ -122,7 +131,7 @@ const ExperienceForm = ({ experienceData, id = null }) => {
             />
             <input
               onChange={handleChange}
-              onBlur={handleChange}
+              onBlur={handleBlur}
               name="finishDate"
               type="date"
               defaultValue={formData.finishDate}

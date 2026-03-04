@@ -1,40 +1,39 @@
 import { useEffect } from "react";
 
 import { getExperiences } from "@api/experience";
+import { getLatestPublishedPosts } from "@api/post";
 
 import Experience from "@components/Experience";
 import ContactForm from "@components/ContactForm";
+import Articles from "@components/Articles";
 import Header from "@compositions/Header";
 import Hero from "@compositions/Hero";
+import NeuralBackground from "@compositions/NeuralBackground";
 
-const Index = ({ data }) => {
+const Index = ({ data, posts }) => {
   useEffect(() => {
-    data?.experiences?.sort(function (a, b) {
-      const dateA = a.startDate;
-      var datePartsA = dateA.split("/");
-      var dateObjectA = new Date(`
-        ${datePartsA[1]}/
-        ${datePartsA[0] - 1}/
-        ${datePartsA[2]}`);
+    if (data?.experiences) {
+      data.experiences.sort(function (a, b) {
+        const dateA = a.startdate;
+        const dateB = b.startdate;
 
-      const dateB = b.startDate;
-      var datePartsB = dateB.split("/");
-      var dateObjectB = new Date(`
-				${datePartsB[1]}/
-				${datePartsB[0] - 1}/
-				${datePartsB[2]}`);
+        if (!dateA || !dateB) return 0;
 
-      console.log(dateObjectA);
+        const dateObjectA = new Date(dateA);
+        const dateObjectB = new Date(dateB);
 
-      return dateObjectB.getDate() - dateObjectA.getDate();
-    });
+        return dateObjectB - dateObjectA;
+      });
+    }
   }, []);
 
   return (
     <>
+      <NeuralBackground />
       <Header />
       <Hero />
       {data && <Experience data={data} />}
+      <Articles posts={posts} />
       <ContactForm />
     </>
   );
@@ -43,6 +42,9 @@ const Index = ({ data }) => {
 export default Index;
 
 Index.getInitialProps = async () => {
-  const experiences = await getExperiences();
-  return { data: experiences };
+  const [experiences, postsResponse] = await Promise.all([
+    getExperiences(),
+    getLatestPublishedPosts(),
+  ]);
+  return { data: experiences, posts: postsResponse.posts || [] };
 };

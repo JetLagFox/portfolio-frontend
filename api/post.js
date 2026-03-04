@@ -119,6 +119,20 @@ export function deletePost(id) {
     });
 }
 
+export function getPostById(id) {
+  const uri = `${BASE_URI}/post-id/${id}`;
+
+  return fetch(uri, { method: "GET", headers: { "Content-Type": "application/json" } })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code !== 200) {
+        return { status: response.code, message: response.message };
+      }
+      return { status: response.code, post: response.post };
+    })
+    .catch((err) => ({ status: err.code, message: err.message }));
+}
+
 export function updatePost(id, postData) {
   const uri = `${BASE_URI}/update-post/${id}`;
 
@@ -131,16 +145,17 @@ export function updatePost(id, postData) {
   return fetch(uri, params)
     .then((response) => response.json())
     .then((response) => {
-      if (response.code === 404) {
+      if (response.code !== 200) {
         return {
           status: response.code,
-          message: "Algo salió mal",
+          message: response.message || "Algo salió mal",
         };
       }
 
       return {
         status: response.code,
         message: "Post actualizado correctamente",
+        post: response.post,
       };
     })
     .catch((err) => {
@@ -149,6 +164,30 @@ export function updatePost(id, postData) {
         message: err.message,
       };
     });
+}
+
+export function searchPublished(title) {
+  const uri = `${BASE_URI}/search-published/${encodeURIComponent(title)}/1`;
+
+  return fetch(uri, { method: "GET", headers: { "Content-Type": "application/json" } })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code !== 200) return { status: response.code, posts: { docs: [] } };
+      return { status: response.code, posts: response.posts };
+    })
+    .catch(() => ({ status: 500, posts: { docs: [] } }));
+}
+
+export function getLatestPublishedPosts() {
+  const uri = `${BASE_URI}/published-posts`;
+
+  return fetch(uri, { method: "GET", headers: { "Content-Type": "application/json" } })
+    .then((response) => response.json())
+    .then((response) => {
+      if (response.code !== 200) return { status: response.code, posts: [] };
+      return { status: response.code, posts: response.posts };
+    })
+    .catch(() => ({ status: 500, posts: [] }));
 }
 
 export function addPost(postData) {
@@ -163,16 +202,17 @@ export function addPost(postData) {
   return fetch(uri, params)
     .then((response) => response.json())
     .then((response) => {
-      if (response.code === 404) {
+      if (response.code !== 200) {
         return {
           status: response.code,
-          message: "Algo salió mal",
+          message: response.message || "Algo salió mal",
         };
       }
 
       return {
         status: response.code,
         message: "Post añadido correctamente",
+        post: response.post,
       };
     })
     .catch((err) => {

@@ -10,7 +10,8 @@
       "@components/*": ["components/*"],
       "@hooks/*": ["hooks/*"],
       "@api/*": ["api/*"],
-      "@svg/*": ["svg/*"]
+      "@svg/*": ["svg/*"],
+      "@utils/*": ["utils/*"]
     }
   }
 }

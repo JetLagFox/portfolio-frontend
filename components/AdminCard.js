@@ -6,8 +6,9 @@ import { AdminContext } from "@context/AdminContext";
 
 import Pencil from "@svg/Pencil";
 import Delete from "@svg/Delete";
+import Eye from "@svg/Eye";
 
-const AdminCard = ({ title, description, published, id, postType, img = null }) => {
+const AdminCard = ({ title, description, published, id, postType, img = null, previewUrl = null }) => {
   const { setShowModal, setDeleteId } = useContext(AdminContext);
 
   return (
@@ -35,6 +36,13 @@ const AdminCard = ({ title, description, published, id, postType, img = null }) 
             <Pencil />
           </a>
         </Link>
+        {previewUrl && (
+          <Link href={previewUrl}>
+            <a target="_blank" rel="noreferrer" className="admin-card__preview">
+              <Eye />
+            </a>
+          </Link>
+        )}
       </div>
     </div>
   );

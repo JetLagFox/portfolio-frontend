@@ -13,21 +13,28 @@ const ExperienceItem = ({
   company,
   keyIndex,
   tags,
+  dateStart,
+  dateEnd,
+  isCurrent,
 }) => {
   const myRef = useRef();
-  const { inViewport, enterCount, leaveCount } = useInViewport(
+  const { enterCount } = useInViewport(
     myRef,
-    {},
+    { threshold: 0.15 },
     { disconnectOnLeave: false }
   );
+
+  const isVisible = enterCount >= 1;
 
   return (
     <li
       ref={myRef}
       key={keyIndex}
-      className={`experience-item ${
-        enterCount >= 1 ? "experience-item--inviewport" : ""
-      }`}
+      className={`experience-item ${isVisible ? "is-visible" : ""}`}
+      style={{ transitionDelay: `${keyIndex * 0.08}s` }}
+      data-date-start={dateStart}
+      data-date-end={dateEnd}
+      data-current={isCurrent ? "true" : "false"}
     >
       <h3>{job}</h3>
       <div>
@@ -38,24 +45,6 @@ const ExperienceItem = ({
           })}
         </div>
       </div>
-      <p className="experience-item__date date--desktop">
-        <span className={`${!finishDate && "date--actual-job"}`}>
-          {finishDate
-            ? finishDate?.substr(8, 2) +
-              " de " +
-              fromIntToDate(finishDate?.substr(5, 2)) +
-              ", " +
-              finishDate?.substr(0, 4)
-            : "Actualmente"}
-        </span>
-        <span>
-          {startDate?.substr(8, 2) +
-            " de " +
-            fromIntToDate(startDate?.substr(5, 2)) +
-            ", " +
-            startDate?.substr(0, 4)}
-        </span>
-      </p>
     </li>
   );
 };

@@ -58,8 +58,9 @@ const Posts = () => {
                 description={post.excerpt}
                 postType={postType}
                 published={post.published}
-                id={post._id}
+                id={post.id}
                 img={post.img}
+                previewUrl={post.post_type && post.slug ? `/${post.post_type}/${post.slug}` : null}
               />
             </React.Fragment>
           );

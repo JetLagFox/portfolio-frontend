@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { useInViewport } from "react-in-viewport";
+import Script from "next/script";
 
 import ExperienceItem from "@atoms/ExperienceItem";
 import TagItem from "@atoms/TagItem";
@@ -12,6 +13,13 @@ const checkFilter = (experience, filters) => {
     }
   });
   return experienceFiltered;
+};
+
+const formatDate = (dateStr) => {
+  if (!dateStr) return "";
+  const date = new Date(dateStr);
+  const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
+  return `${date.getDate()} de ${months[date.getMonth()]}, ${date.getFullYear()}`;
 };
 
 const Experience = ({ data }) => {
@@ -48,6 +56,12 @@ const Experience = ({ data }) => {
     } else {
       setExperiences(data.experiences);
     }
+    
+    setTimeout(() => {
+      if (window.initTimeline) {
+        window.initTimeline();
+      }
+    }, 100);
   }, [filterBy]);
 
   const handleSelection = (item) => {
@@ -57,7 +71,8 @@ const Experience = ({ data }) => {
   };
 
   return (
-    <section className="experience">
+    <section className="experience" id="experiencia">
+      <Script src="/experience-timeline.js" strategy="afterInteractive" />
       <div className="wrapper">
         <h2>Experiencia Laboral</h2>
         <p>
@@ -72,24 +87,31 @@ const Experience = ({ data }) => {
           })}
         </p>
         <ul
+          id="experienceWrap"
           className={`experience__wrap ${
             enterCount >= 1 && "experience__wrap--fade-in"
           }`}
           ref={myRef}
         >
+          <div id="experienceRail" className="experience-rail">
+            <div id="railFill" className="rail-fill"></div>
+          </div>
           {experiences?.map((item, index) => {
-            console.log(index);
+            const isCurrent = !item.finishdate;
             return (
               <ExperienceItem
                 job={item.job}
                 city={item.city}
                 country={item.country}
-                startDate={item.startDate}
-                finishDate={item.finishDate}
+                startDate={item.startdate}
+                finishDate={item.finishdate}
                 description={item.description}
                 company={item.company}
                 keyIndex={index}
                 tags={item.tags}
+                dateStart={formatDate(item.startdate)}
+                dateEnd={isCurrent ? "Actualmente" : formatDate(item.finishdate)}
+                isCurrent={isCurrent}
               />
             );
           })}
